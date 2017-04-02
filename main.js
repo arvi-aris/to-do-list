@@ -14,3 +14,4 @@ var containmentY2 = 1000
 $('.listdraggable').draggable({
 containment:  [containmentX1, containmentY1, containmentX2, containmentY2]
 });
+$('.listdraggable').resizable();

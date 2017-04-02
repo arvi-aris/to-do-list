@@ -30,7 +30,7 @@ class ListElement extends React.Component {
             <span className="col-xs-3 addHeader"> List {this.props.id}</span>
             <span className="addDelHeader" onClick={this.props.onDelete}> Delete this list.. </span>
             {this.props.card ? this.props.card.map((obj,value) => {
-              return <div key={value}><div id={value} onClick={this.viewCard.bind(this)} className="cardView col-xs-9" ><div className="cvDesc">{obj.cardDesc}</div><br/><div className="cvDesc cvComment"><i>comments:<span className="commentSect">{obj.comments.length ? obj.comments.join(',') : "No comments"}</span></i></div></div></div>
+              return <div key={value}><div id={value} onClick={this.viewCard.bind(this)} className="cardView col-xs-9" ><div className="cvDesc">{obj.cardDesc ? obj.cardDesc : "-" }</div><br/><div className="cvDesc cvComment"><i>comments:<span className="commentSect">{obj.comments.length ? obj.comments.map(function(obj){return <div>{obj.split('-')[0]}</div>}) : "-"}</span></i></div></div></div>
 
             }) : false}
             <div className="card col-xs-6 addCard" onClick={this.createCard.bind(this)}>
@@ -83,8 +83,16 @@ class List extends React.Component {
     })
 
   }
-  componentWillMount(){
+  componentDidMount(){
     localStorage.removeItem('comments');
+    var containmentX1 = $("#board").offset().left;
+    var containmentY1 = $("#board").offset().top;
+    var containmentX2 =  $("#board").outerWidth();
+    var containmentY2 = 10000
+      $('.listdraggable').draggable({
+        containment:  [containmentX1, containmentY1, containmentX2, containmentY2]
+    });
+    $('.listdraggable').resizable();
   }
   componentDidUpdate() {
   localStorage.removeItem('comments');
@@ -92,10 +100,10 @@ class List extends React.Component {
   var containmentY1 = $("#board").offset().top;
   var containmentX2 =  $("#board").outerWidth();
   var containmentY2 = 10000
-
-  $('.listdraggable').draggable({
-    containment:  [containmentX1, containmentY1, containmentX2, containmentY2]
-});
+    $('.listdraggable').draggable({
+      containment:  [containmentX1, containmentY1, containmentX2, containmentY2]
+  });
+  $('.listdraggable').resizable();
   }
 
   componentWillMount(){
